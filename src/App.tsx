@@ -1,22 +1,34 @@
 import * as React from 'react';
+import {Link, Route, Switch} from 'react-router-dom';
 import './App.css';
-
-import logo from './logo.svg';
+import GlossaryPage from "./component/Page/GlossaryPage/GlossaryPage";
+import NotesPage from "./component/Page/NotesPage/NotesPage";
 
 class App extends React.Component {
-  public render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+    public render() {
+        return (
+            <div className="App">
+                <header className="App-header">
+                    <ul>
+                        <li>
+                            <Link to="/notes">Записи</Link>
+                        </li>
+                        <li>
+                            <Link to="/glossary">Словари</Link>
+                        </li>
+                    </ul>
+                </header>
+                <div>
+                    <Switch>
+                        <Route path="/notes"
+                                       component={NotesPage}/>
+                        <Route path="/glossary"
+                                       component={GlossaryPage}/>
+                    </Switch>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default App;
