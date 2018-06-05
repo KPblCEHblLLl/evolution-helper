@@ -1,32 +1,25 @@
+import {Paper} from "material-ui";
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import * as React from 'react';
-import {Link, Route, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import './App.css';
-import GlossaryPage from "./component/Page/GlossaryPage/GlossaryPage";
-import NotesPage from "./component/Page/NotesPage/NotesPage";
+import MagistralDirectionPage from "./component/Page/MagistralDirectionPage/MagistralDirectionPage";
+import MainPage from "./component/Page/MainPage/MainPage";
 
 class App extends React.Component {
     public render() {
         return (
-            <div className="App">
-                <header className="App-header">
-                    <ul>
-                        <li>
-                            <Link to="/notes">Записи</Link>
-                        </li>
-                        <li>
-                            <Link to="/glossary">Словари</Link>
-                        </li>
-                    </ul>
-                </header>
-                <div>
+            <MuiThemeProvider>
+                <div className="app">
+                    <Paper zDepth={3} className='app__background' />
                     <Switch>
-                        <Route path="/notes"
-                                       component={NotesPage}/>
-                        <Route path="/glossary"
-                                       component={GlossaryPage}/>
+                        <Route path="/magistral-directions"
+                               component={MagistralDirectionPage}/>
+                        <Route path="/"
+                               component={MainPage}/>
                     </Switch>
                 </div>
-            </div>
+            </MuiThemeProvider>
         );
     }
 }

@@ -1,5 +1,7 @@
+import {RaisedButton} from "material-ui";
 import * as React from 'react';
 import {Link} from "react-router-dom";
+import './GlossaryPage.css'
 
 
 export default function GlossaryPage() {
@@ -9,16 +11,19 @@ export default function GlossaryPage() {
         {path: '/magistral-directions', name: 'Магистральные направления'},
     ];
     return (
-        <div>
-            <div>Справочники и словари. Что-то, что редко меняется и к чему часто делаются отсылки
+        <div className="glossary-page">
+            <div className="glossary-page__header">Справочники и словари. Что-то, что редко меняется и к чему часто делаются отсылки
             </div>
-            {list.map((glossary, key) => {
-                return (
-                    <Link to={glossary.path} key={key}>
-                        <div className="glossary-page__glossary">{glossary.name}</div>
-                    </Link>
-                );
-            })}
+            <div className="glossary-page__list">
+                {list.map((glossary, key) => {
+                    return (
+                        <Link to={glossary.path} key={key} className="glossary-page__link">
+                            <RaisedButton buttonStyle={{height: "100%"}} className="glossary-page__glossary"
+                                          label={glossary.name} primary={true}/>
+                        </Link>
+                    );
+                })}
+            </div>
         </div>
     );
 }

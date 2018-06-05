@@ -1,0 +1,23 @@
+.main-page {
+  position: relative;
+}
+.main-page__menu {
+  display: flex;
+  background-color: #00BCD4;
+  padding-bottom: 3px;
+}
+.main-page__menu-item {
+  flex: 1;
+  box-sizing: border-box;
+  margin-right: 3px;
+}
+.main-page__menu-item:last-child {
+  margin-right: 0;
+}
+.main-page__menu-separator {
+  width: 5px;
+}
+.main-page__body {
+  background-color: #F7F7F7;
+}
+/*# sourceMappingURL=MainPage.css.map */
