@@ -1,5 +1,5 @@
-import {Schema, model} from 'mongoose';
 import {ObjectID} from 'mongodb';
+import {model, Schema} from 'mongoose';
 
 const MagistralDirectionItem = new Schema({
     dateCreated: {type: Date, default: Date.now},
@@ -9,4 +9,4 @@ const MagistralDirectionItem = new Schema({
     userId: {type: ObjectID, required: true},
 });
 
-export const  MagistralDirectionItemModel = model('MagistralDirectionItem', MagistralDirectionItem)
+export const MagistralDirectionItemModel = model('MagistralDirectionItem', MagistralDirectionItem)
