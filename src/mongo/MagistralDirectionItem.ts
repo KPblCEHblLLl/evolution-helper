@@ -1,4 +1,3 @@
-import {ObjectID} from 'mongodb';
 import {model, Schema} from 'mongoose';
 
 const MagistralDirectionItem = new Schema({
@@ -6,7 +5,7 @@ const MagistralDirectionItem = new Schema({
     dateModified: {type: Date},
     descrption: {type: String},
     name: {type: String, required: true},
-    userId: {type: ObjectID, required: true},
+    userId: {type: Schema.Types.ObjectId, required: true},
 });
 
 export const MagistralDirectionItemModel = model('MagistralDirectionItem', MagistralDirectionItem)
