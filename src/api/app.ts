@@ -24,7 +24,7 @@ class App {
 
     private mongoSetup(): void {
         mongoose.connect(this.mongoUrl).catch((err) => {
-            console.error('mongoose connection error', err.stack);
+            // console.error('mongoose connection error', err.stack);
         });
     }
 

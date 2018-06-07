@@ -1,6 +1,6 @@
 import {Request, Response, Router} from "express";
-import {MagistralDirectionItemModel} from '../../mongo/MagistralDirectionItem';
 import {ObjectID} from "mongodb";
+import {IMagistralDirectionItem, MagistralDirectionItem} from '../../mongo/MagistralDirectionItem';
 
 const router: Router = Router();
 const userId = new ObjectID('5b1822bed92d33f83bbc9014');
@@ -16,7 +16,7 @@ const userId = new ObjectID('5b1822bed92d33f83bbc9014');
 // });
 
 router.get('/', (req: Request, res: Response) => {
-    MagistralDirectionItemModel.find({userId}, (err: any, list) => {
+    MagistralDirectionItem.find({userId}, (err: any, list: IMagistralDirectionItem[]) => {
         if (err != null) {
             res.status(503).send(err);
         } else {
@@ -26,7 +26,7 @@ router.get('/', (req: Request, res: Response) => {
 });
 
 router.get('/:id', (req: Request, res: Response) => {
-    MagistralDirectionItemModel.find({userId, _id: req.params.id}, (err: any, list) => {
+    MagistralDirectionItem.find({userId, _id: req.params.id}, (err: any, list: IMagistralDirectionItem[]) => {
         if (err != null) {
             res.status(503).send(err);
         } else {
@@ -36,9 +36,9 @@ router.get('/:id', (req: Request, res: Response) => {
 });
 
 router.post('/', (req: Request, res: Response) => {
-    let item = new MagistralDirectionItemModel({
-        name: req.body.name,
+    const item = new MagistralDirectionItem({
         descrption: req.body.descrption,
+        name: req.body.name,
         userId,
     });
 
@@ -48,24 +48,27 @@ router.post('/', (req: Request, res: Response) => {
 });
 
 router.put('/:id', (req: Request, res: Response) => {
-    MagistralDirectionItemModel.findOne({
+    MagistralDirectionItem.findOneAndUpdate({
         _id: req.params.id,
         userId,
-    }, (err: any, item: MagistralDirectionItemModel) => {
+    }, {
+        $set: {
+            description: String(req.body.description || ''),
+            name: String(req.body.name || ''),
+        },
+    }, {
+        new: true,
+    }, (err: any, item : IMagistralDirectionItem) => {
         if (err) {
             res.status(503).send();
             return;
         }
-
-        item.name = req.body.name;
-        item.descrption = req.body.descrption;
-
-        item.save();
+        res.status(200).send(item);
     });
 });
 
 router.delete('/:id', (req: Request, res: Response) => {
-    MagistralDirectionItemModel.remove({
+    MagistralDirectionItem.remove({
         _id: req.params.id,
         userId,
     }, (err: any) => {
