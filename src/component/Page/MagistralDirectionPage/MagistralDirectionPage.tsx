@@ -1,13 +1,22 @@
-import {RaisedButton} from "material-ui";
 import * as React from 'react';
-import "./MagistralDirectionPage.css"
+import {Route, RouteComponentProps, Switch} from "react-router";
+import NewMagistralDirectionForm from "../../MagistralDirection/NewMagistralDirectionForm";
+import StyledLink from "../../StyledLink";
 
 
-export default function MagistralDirectionPage() {
-    const className = "magistral-direction-page";
+export default function MagistralDirectionPage(props: RouteComponentProps<any>) {
     return (
-       <div className={className}>
-           <RaisedButton className={`${className}__add`} label="Создать новое направление" secondary={true}/>
-       </div>
+        <Switch>
+            <Route path={`${props.match.path}/new`}>
+                <NewMagistralDirectionForm/>
+            </Route>
+            <Route path={`${props.match.path}`}>
+                <div>
+                    <StyledLink to={`${props.match.path}/new`}>
+                        Создать новое направление
+                    </StyledLink>
+                </div>
+            </Route>
+        </Switch>
     );
 }

@@ -1,9 +1,10 @@
-import {Document, Model, model, Schema} from 'mongoose';
-import {IMagistralDirection} from "../models/MagistralDirection";
+import {Document, model, Model, Schema} from 'mongoose';
+import {IMagistralDirection} from '../interface/magistral-direction';
 
-export interface IMagistralDirectionItem extends IMagistralDirection, Document {}
+export interface IMagistralDirectionModel extends IMagistralDirection, Document {
+}
 
-export const MagistralDirectionItemSchema: Schema = new Schema({
+const MagistralDirectionItemSchema = new Schema({
     dateCreated: {type: Date, default: Date.now},
     dateModified: {type: Date},
     descrption: {type: String},
@@ -11,4 +12,4 @@ export const MagistralDirectionItemSchema: Schema = new Schema({
     userId: {type: Schema.Types.ObjectId, required: true},
 });
 
-export const MagistralDirectionItem: Model<IMagistralDirectionItem> = model<IMagistralDirectionItem>('MagistralDirectionItem', MagistralDirectionItemSchema)
+export const MagistralDirection: Model<IMagistralDirectionModel> = model<IMagistralDirectionModel>('MagistralDirection', MagistralDirectionItemSchema);

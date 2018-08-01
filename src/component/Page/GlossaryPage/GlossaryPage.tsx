@@ -1,29 +1,36 @@
-import {RaisedButton} from "material-ui";
 import * as React from 'react';
-import {Link} from "react-router-dom";
-import './GlossaryPage.css'
+import {Route, RouteComponentProps, Switch} from "react-router";
+import MagistralDirectionPage from "../MagistralDirectionPage/MagistralDirectionPage";
+import {StyledGlossaryPage, StyledHeader, StyledList, StyledListLink} from "./StyledGlossaryPage"
 
-
-export default function GlossaryPage() {
+export default function GlossaryPage(props: RouteComponentProps<any>) {
     const list = [
-        {path: '/life-periods', name: 'Периоды жизни'},
-        {path: '/practices', name: 'Практики'},
-        {path: '/magistral-directions', name: 'Магистральные направления'},
+        {path: `${props.match.path}/life-periods`, name: 'Периоды жизни'},
+        {path: `${props.match.path}/practices`, name: 'Практики'},
+        {path: `${props.match.path}/magistral-direction`, name: 'Магистральные направления'},
     ];
     return (
-        <div className="glossary-page">
-            <div className="glossary-page__header">Справочники и словари. Что-то, что редко меняется и к чему часто делаются отсылки
-            </div>
-            <div className="glossary-page__list">
-                {list.map((glossary, key) => {
-                    return (
-                        <Link to={glossary.path} key={key} className="glossary-page__link">
-                            <RaisedButton buttonStyle={{height: "100%"}} className="glossary-page__glossary"
-                                          label={glossary.name} primary={true}/>
-                        </Link>
-                    );
-                })}
-            </div>
-        </div>
+        <StyledGlossaryPage>
+            <Switch>
+                <Route path={`${props.match.path}/magistral-direction`}
+                       component={MagistralDirectionPage}/>
+                <Route path={props.match.path}>
+                    <div>
+                        <StyledHeader>
+                            Справочники и словари. Что-то, что редко меняется и к чему часто делаются отсылки
+                        </StyledHeader>
+                        <StyledList>
+                            {list.map((glossary, key) => {
+                                return (
+                                    <StyledListLink to={glossary.path} key={key}>
+                                        {glossary.name}
+                                    </StyledListLink>
+                                );
+                            })}
+                        </StyledList>
+                    </div>
+                </Route>
+            </Switch>
+        </StyledGlossaryPage>
     );
 }
