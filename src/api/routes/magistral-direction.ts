@@ -38,11 +38,11 @@ router.get('/:id', (req: Request, res: Response) => {
 router.post('/', (req: Request, res: Response) => {
     const item = new MagistralDirection({
         name: req.body.name,
-        descrption: req.body.descrption,
+        description: req.body.description,
         userId,
     });
 
-    item.save((err: any) => {
+    item.save(() => {
         return res.status(200).send(item);
     });
 });
@@ -58,7 +58,7 @@ router.put('/:id', (req: Request, res: Response) => {
         }
 
         item.name = req.body.name;
-        item.descrption = req.body.descrption;
+        item.description = req.body.description;
 
         item.save();
     });

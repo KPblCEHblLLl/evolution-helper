@@ -29,7 +29,7 @@ export default class NewMagistralDirectionForm extends React.Component<any, any>
         e.preventDefault();
         const item: IMagistralDirectionData = {
             name: this.nameInput.value,
-            descrption: this.descriptionInput.value,
+            description: this.descriptionInput.value,
         };
         console.log(item);
         Axios.post("/api/magistral-direction/", item);
