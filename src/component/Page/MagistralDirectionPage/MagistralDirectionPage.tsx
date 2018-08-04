@@ -19,7 +19,7 @@ export default class MagistralDirectionPage extends React.Component<RouteCompone
         return (
             <Switch>
                 <Route path={`${this.props.match.path}/new`}>
-                    <NewMagistralDirectionForm onCreate={this.onCreate}/>
+                    <NewMagistralDirectionForm onCreate={this.onCreate} state={state}/>
                 </Route>
                 <Route path={`${this.props.match.path}`}>
                     <div>

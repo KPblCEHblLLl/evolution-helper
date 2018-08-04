@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Route, Switch} from "react-router-dom";
+import Shadow from "../../Shadow";
 import GlossaryPage from "../GlossaryPage/GlossaryPage";
 import NotesPage from "../NotesPage/NotesPage";
 import {StyledPage, StyledPageBody} from "../StyledPage"
@@ -13,6 +14,7 @@ export default function MainPage() {
     ];
     return (
         <StyledPage>
+            <Shadow />
             <MainMenu>
                 {menuItems.map((item, key) => {
                     return (

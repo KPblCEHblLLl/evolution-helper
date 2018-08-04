@@ -1,36 +1,38 @@
-import Axios from "axios";
+import {observer} from "mobx-react";
 import * as React from "react";
-import {FormEvent} from "react";
 import {IMagistralDirectionData} from "../../interface/magistral-direction";
+import MagistralDirectionPageState from "../../state/MagistralDirectionPageState";
+import ProgressButton from "../Button/ProgressButton";
 
-export default class NewMagistralDirectionForm extends React.Component<{onCreate: () => void}, any> {
-    private nameInput : HTMLInputElement;
-    private descriptionInput : HTMLTextAreaElement;
+class NewMagistralDirectionForm extends React.Component<{ onCreate: () => void, state: typeof MagistralDirectionPageState.Type }, any> {
+    private nameInput: HTMLInputElement;
+    private descriptionInput: HTMLTextAreaElement;
 
     public render() {
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form>
                 <div>
-                    Name: <input ref={(ref:HTMLInputElement) => this.nameInput = ref}/>
+                    Name: <input ref={(ref: HTMLInputElement) => this.nameInput = ref}/>
                 </div>
                 <div>
                     Description:
-                    <textarea ref={(ref:HTMLTextAreaElement) => this.descriptionInput = ref}/>
+                    <textarea ref={(ref: HTMLTextAreaElement) => this.descriptionInput = ref}/>
                 </div>
                 <div>
-                    <button>Create</button>
+                    <ProgressButton onClick={this.handleSubmit} loading={this.props.state.creatingFlag}>Create</ProgressButton>
                 </div>
             </form>
         )
     }
 
-    private handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    private handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         const item: IMagistralDirectionData = {
             name: this.nameInput.value,
             description: this.descriptionInput.value,
         };
-        console.log(item);
-        Axios.post("/api/magistral-direction/", item).then(this.props.onCreate);
+        this.props.state.createMagistralDirection(item).then(this.props.onCreate);
     }
 }
+
+export default observer(NewMagistralDirectionForm);
