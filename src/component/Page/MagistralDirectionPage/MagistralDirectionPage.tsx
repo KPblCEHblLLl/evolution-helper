@@ -8,20 +8,32 @@ import StyledLink from "../../StyledLink";
 
 const state = MagistralDirectionPageState.create();
 
-export default function MagistralDirectionPage(props: RouteComponentProps<any>) {
-    return (
-        <Switch>
-            <Route path={`${props.match.path}/new`}>
-                <NewMagistralDirectionForm/>
-            </Route>
-            <Route path={`${props.match.path}`}>
-                <div>
-                    <StyledLink to={`${props.match.path}/new`}>
-                        Создать новое направление
-                    </StyledLink>
-                    <MagistralDirectionsList state={state}/>
-                </div>
-            </Route>
-        </Switch>
-    );
+export default class MagistralDirectionPage extends React.Component<RouteComponentProps<any>> {
+    constructor(props : RouteComponentProps<any>) {
+        super(props);
+
+        this.onCreate = this.onCreate.bind(this);
+    }
+
+    public render() {
+        return (
+            <Switch>
+                <Route path={`${this.props.match.path}/new`}>
+                    <NewMagistralDirectionForm onCreate={this.onCreate}/>
+                </Route>
+                <Route path={`${this.props.match.path}`}>
+                    <div>
+                        <StyledLink to={`${this.props.match.path}/new`}>
+                            Создать новое направление
+                        </StyledLink>
+                        <MagistralDirectionsList state={state}/>
+                    </div>
+                </Route>
+            </Switch>
+        );
+    }
+
+    private onCreate() {
+        this.props.history.push(this.props.match.path)
+    }
 }

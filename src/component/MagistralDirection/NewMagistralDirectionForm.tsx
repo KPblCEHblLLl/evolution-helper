@@ -3,7 +3,7 @@ import * as React from "react";
 import {FormEvent} from "react";
 import {IMagistralDirectionData} from "../../interface/magistral-direction";
 
-export default class NewMagistralDirectionForm extends React.Component<any, any> {
+export default class NewMagistralDirectionForm extends React.Component<{onCreate: () => void}, any> {
     private nameInput : HTMLInputElement;
     private descriptionInput : HTMLTextAreaElement;
 
@@ -24,7 +24,6 @@ export default class NewMagistralDirectionForm extends React.Component<any, any>
         )
     }
 
-
     private handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const item: IMagistralDirectionData = {
@@ -32,6 +31,6 @@ export default class NewMagistralDirectionForm extends React.Component<any, any>
             description: this.descriptionInput.value,
         };
         console.log(item);
-        Axios.post("/api/magistral-direction/", item);
+        Axios.post("/api/magistral-direction/", item).then(this.props.onCreate);
     }
 }
