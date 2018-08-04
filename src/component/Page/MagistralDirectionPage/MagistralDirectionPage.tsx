@@ -7,7 +7,6 @@ import StyledLink from "../../StyledLink";
 
 
 const state = MagistralDirectionPageState.create();
-state.loadList();
 
 export default function MagistralDirectionPage(props: RouteComponentProps<any>) {
     return (
