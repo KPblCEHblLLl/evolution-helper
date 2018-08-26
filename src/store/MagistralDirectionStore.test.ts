@@ -1,7 +1,7 @@
-import MagistralDirectionState from "./MagistralDirectionState";
+import MagistralDirectionStore from "./MagistralDirectionStore";
 
 it("can create model", () => {
-    const item = MagistralDirectionState.create({
+    const item = MagistralDirectionStore.create({
         name: "Default One",
         description: "Default description",
         _id: "",

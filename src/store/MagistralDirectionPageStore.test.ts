@@ -1,7 +1,7 @@
-import MagistralDirectionPageState from "./MagistralDirectionPageState";
+import MagistralDirectionPageStore from "./MagistralDirectionPageStore";
 
 it("can create instance of a model", () => {
-    const item = MagistralDirectionPageState.create();
+    const item = MagistralDirectionPageStore.create();
 
     expect(item.magistralDirections.length).toBe(0);
     expect(item).toBe(0);

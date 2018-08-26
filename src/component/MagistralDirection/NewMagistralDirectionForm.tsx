@@ -1,10 +1,11 @@
 import {observer} from "mobx-react";
 import * as React from "react";
 import {IMagistralDirectionData} from "../../interface/magistral-direction";
-import MagistralDirectionPageState from "../../state/MagistralDirectionPageState";
+import {typedInject} from "../../store/AppStore";
+import MagistralDirectionPageStore from "../../store/MagistralDirectionPageStore";
 import ProgressButton from "../Button/ProgressButton";
 
-class NewMagistralDirectionForm extends React.Component<{ onCreate: () => void, state: typeof MagistralDirectionPageState.Type }, any> {
+class NewMagistralDirectionForm extends React.Component<{ onCreate: () => void, magistralDirection: typeof MagistralDirectionPageStore.Type }, any> {
     private nameInput: HTMLInputElement;
     private descriptionInput: HTMLTextAreaElement;
 
@@ -19,7 +20,7 @@ class NewMagistralDirectionForm extends React.Component<{ onCreate: () => void, 
                     <textarea ref={(ref: HTMLTextAreaElement) => this.descriptionInput = ref}/>
                 </div>
                 <div>
-                    <ProgressButton onClick={this.handleSubmit} loading={this.props.state.creatingFlag}>Create</ProgressButton>
+                    <ProgressButton onClick={this.handleSubmit} loading={this.props.magistralDirection.creatingFlag}>Create</ProgressButton>
                 </div>
             </form>
         )
@@ -31,8 +32,8 @@ class NewMagistralDirectionForm extends React.Component<{ onCreate: () => void, 
             name: this.nameInput.value,
             description: this.descriptionInput.value,
         };
-        this.props.state.createMagistralDirection(item).then(this.props.onCreate);
+        this.props.magistralDirection.createMagistralDirection(item).then(this.props.onCreate);
     }
 }
 
-export default observer(NewMagistralDirectionForm);
+export default typedInject("magistralDirection")(observer(NewMagistralDirectionForm));

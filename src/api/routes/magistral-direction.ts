@@ -26,11 +26,11 @@ router.get('/', (req: Request, res: Response) => {
 });
 
 router.get('/:id', (req: Request, res: Response) => {
-    MagistralDirection.find({userId, _id: req.params.id}, (err: any, list) => {
+    MagistralDirection.findOne({userId, _id: req.params.id}, (err: any, item) => {
         if (err != null) {
             res.status(503).send(err);
         } else {
-            res.status(200).send(list);
+            res.status(200).send(item);
         }
     });
 });
