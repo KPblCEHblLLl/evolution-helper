@@ -39,7 +39,9 @@ export default class MagistralDirectionPage extends React.Component<RouteCompone
     private renderCard(props: RouteComponentProps<{ id: string }>) {
         return <MagistralDirectionCard
             id={props.match.params.id}
-            onItemDelete={this.onItemDelete}/>
+            onItemDelete={this.onItemDelete}
+            onItemEdit={this.onItemEdit}
+        />
     }
 
     private onCreate() {
@@ -49,6 +51,10 @@ export default class MagistralDirectionPage extends React.Component<RouteCompone
         this.props.history.push(`${this.props.match.path}/${id}`);
     }
     private onItemDelete() {
+        this.props.history.push(this.props.match.path)
+    }
+
+    private onItemEdit = (id: string) => {
         this.props.history.push(this.props.match.path)
     }
 }
