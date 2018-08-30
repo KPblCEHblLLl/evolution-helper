@@ -47,7 +47,7 @@ class MagistralDirectionsList extends React.Component<IComponentProps> {
             <div>
                 <StyledList>
                     {this.props.magistralDirection.magistralDirections.map((item: typeof MagistralDirectionStore.Type, idx: number) => (
-                        <StyledListLink to={`${this.props.path}/id/${item._id}`}>
+                        <StyledListLink to={`${this.props.path}/view/${item._id}`}>
                             <MagistralDirectionItem item={item} key={idx}/>
                         </StyledListLink>
                     ))}

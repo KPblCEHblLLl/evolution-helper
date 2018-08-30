@@ -43,7 +43,8 @@ router.post('/', (req: Request, res: Response) => {
     });
 
     item.save(() => {
-        return res.status(200).send(item);
+        console.log('item created');
+        res.status(200).send(item);
     });
 });
 
@@ -60,7 +61,10 @@ router.put('/:id', (req: Request, res: Response) => {
         item.name = req.body.name;
         item.description = req.body.description;
 
-        item.save();
+        item.save(() => {
+            console.log('item updated');
+            res.status(200).send(item);
+        });
     });
 });
 

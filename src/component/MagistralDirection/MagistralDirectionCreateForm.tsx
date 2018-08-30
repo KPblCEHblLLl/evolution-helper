@@ -5,7 +5,7 @@ import {typedInject} from "../../store/AppStore";
 import MagistralDirectionPageStore from "../../store/MagistralDirectionPageStore";
 import ProgressButton from "../Button/ProgressButton";
 
-class NewMagistralDirectionForm extends React.Component<{ onCreate: () => void, magistralDirection: typeof MagistralDirectionPageStore.Type }, any> {
+class MagistralDirectionCreateForm extends React.Component<{ onCreate: () => void, magistralDirection: typeof MagistralDirectionPageStore.Type }, any> {
     private nameInput: HTMLInputElement;
     private descriptionInput: HTMLTextAreaElement;
 
@@ -36,4 +36,4 @@ class NewMagistralDirectionForm extends React.Component<{ onCreate: () => void, 
     }
 }
 
-export default typedInject("magistralDirection")(observer(NewMagistralDirectionForm));
+export default typedInject("magistralDirection")(observer(MagistralDirectionCreateForm));

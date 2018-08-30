@@ -13,6 +13,7 @@ export default types
         loadingItemFlag: types.optional(types.boolean, false),
         creatingFlag: types.optional(types.boolean, false),
         deletingFlag: types.optional(types.boolean, false),
+        updatingFlag: types.optional(types.boolean, false),
     })
     .actions(self => ({
         loadList: flow(function* () {
@@ -57,6 +58,18 @@ export default types
                 self.currentItem = undefined;
             }
             self.deletingFlag = false;
+        }),
+        updateMagistralDirection: flow(function* (id: string, item:IMagistralDirectionData) {
+            const d = delay(100);
+            self.updatingFlag = true;
+
+            const response = yield Axios.put(`/api/magistral-direction/${id}`, item);
+            yield d;
+
+            if (response.data) {
+                self.currentItem = undefined;
+            }
+            self.updatingFlag = false;
         }),
     }));
 

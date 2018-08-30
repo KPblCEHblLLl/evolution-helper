@@ -3,9 +3,9 @@ import * as React from "react";
 import styled from "styled-components";
 import {typedInject} from "../../store/AppStore";
 import MagistralDirectionPageStore from "../../store/MagistralDirectionPageStore";
-import Button from "../Button/Button";
 import ProgressButton from "../Button/ProgressButton";
 import StyledLoader from "../Loader/StyledLoader";
+import StyledLink from "../StyledLink";
 
 const StyledHeader = styled('div')`
      font-size: 18px;
@@ -19,8 +19,8 @@ const StyledDescription = styled('div')`
 interface IProps {
     magistralDirection: typeof MagistralDirectionPageStore.Type;
     onItemDelete: () => void;
-    onItemEdit: (id: string) => void;
-    id: string
+    path: string;
+    id: string;
 }
 
 class MagistralDirectionCard extends React.Component<IProps, any> {
@@ -41,7 +41,9 @@ class MagistralDirectionCard extends React.Component<IProps, any> {
                 <div>
                     <ProgressButton onClick={this.handleDelete}
                                     loading={this.props.magistralDirection.deletingFlag}>Delete</ProgressButton>
-                    <Button onClick={this.handleEdit}>Edit</Button>
+                    <StyledLink to={`${this.props.path}/edit/${this.props.id}`}>
+                        Edit
+                    </StyledLink>
                 </div>
             </div>
         )
@@ -54,10 +56,6 @@ class MagistralDirectionCard extends React.Component<IProps, any> {
         this.props.magistralDirection.deleteMagistralDirection(this.props.id)
             .then(this.props.onItemDelete);
     };
-
-    private handleEdit = () => {
-        this.props.onItemEdit(this.props.id);
-    }
 }
 
 export default typedInject("magistralDirection")(observer(MagistralDirectionCard));
