@@ -1,7 +1,7 @@
 import {Request, Response, Router} from "express";
 import userId from "../userId";
 import {IPracticeModel, Practice} from "../../mongo/PracticeItem";
-import {IPractice, IPracticeServiceData, IPracticeUserDataKeys} from "../../interface/practice";
+import {IPracticeServiceData, IPracticeUserDataKeys} from "../../interface/practice";
 import assignKeys from "../../util/assignKeys";
 
 const router: Router = Router();
@@ -28,11 +28,12 @@ router.get('/:id', (req: Request, res: Response) => {
 
 router.post('/', (req: Request, res: Response) => {
     const userData = assignKeys({}, IPracticeUserDataKeys, req.body);
-    const serviceData = <IPracticeServiceData>{
-        userId: userId,
+    const serviceData:IPracticeServiceData = {
+        userId,
+        dateCreated: new Date(),
     };
 
-    const item = new Practice(<IPractice>{
+    const item = new Practice({
         ...userData,
         ...serviceData,
     });

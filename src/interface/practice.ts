@@ -22,8 +22,9 @@ export interface IPracticeServiceData {
 export interface IPractice extends IPracticeUserData, IPracticeServiceData{
 }
 
-export const IPracticeUserDataKeys = <Array<keyof IPracticeUserData>> Object.keys(<IPracticeUserData>{
+const sample: IPracticeUserData = {
     description: "",
     name: "",
     metrics: [],
-});
+};
+export const IPracticeUserDataKeys: Array<keyof IPracticeUserData> =  Object.keys(sample) as Array<keyof IPracticeUserData>;

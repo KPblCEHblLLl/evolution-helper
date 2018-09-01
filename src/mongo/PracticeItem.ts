@@ -21,7 +21,7 @@ const PracticeItemSchema = new Schema({
     description: {type: String},
     name: {type: String, required: true},
     userId: {type: Schema.Types.ObjectId, required: true},
-    metrics: {type: Schema.Types.DocumentArray},
+    metrics: [PracticeMetcicItemSchema],
 });
 
 export const Practice: Model<IPracticeModel> = model<IPracticeModel>('Practice', PracticeItemSchema);

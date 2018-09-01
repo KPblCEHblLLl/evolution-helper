@@ -1,6 +1,6 @@
 import {inject} from "mobx-react";
-import {TypedInject} from "../util/TypedInject";
 import MagistralDirectionPageStore from "./MagistralDirectionPageStore";
+import {TypedInject} from "../util/TypedInject";
 
 export const appStores = {
     magistralDirection: MagistralDirectionPageStore.create(),
