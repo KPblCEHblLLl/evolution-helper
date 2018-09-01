@@ -32,7 +32,6 @@ router.post('/', (req: Request, res: Response) => {
         userId,
         dateCreated: new Date(),
     };
-
     const item = new Practice({
         ...userData,
         ...serviceData,

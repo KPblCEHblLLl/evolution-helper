@@ -1,6 +1,6 @@
 import {observer} from "mobx-react";
 import * as React from "react";
-import {IMagistralDirectionData} from "../../interface/magistral-direction";
+import {IMagistralDirectionUserData} from "../../interface/magistral-direction";
 import {typedInject} from "../../store/AppStore";
 import MagistralDirectionPageStore from "../../store/MagistralDirectionPageStore";
 import ProgressButton from "../Button/ProgressButton";
@@ -51,7 +51,7 @@ class MagistralDirectionEditForm extends React.Component<IProps, any> {
 
     private handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        const item: IMagistralDirectionData = {
+        const item: IMagistralDirectionUserData = {
             name: this.nameInput.value,
             description: this.descriptionInput.value,
         };

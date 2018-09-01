@@ -1,6 +1,6 @@
 import Axios from "axios";
 import {flow, types} from "mobx-state-tree";
-import {IMagistralDirectionData} from "../interface/magistral-direction";
+import {IMagistralDirectionUserData} from "../interface/magistral-direction";
 import delay from "../util/delay";
 import MagistralDirectionStore from "./MagistralDirectionStore";
 
@@ -27,7 +27,7 @@ export default types
             self.magistralDirections.push(...response.data);
             self.loadingListFlag = false;
         }),
-        createMagistralDirection: flow(function* (item:IMagistralDirectionData) {
+        createMagistralDirection: flow(function* (item:IMagistralDirectionUserData) {
             const d = delay(100);
             self.creatingFlag = true;
 
@@ -63,7 +63,7 @@ export default types
             }
             self.deletingFlag = false;
         }),
-        updateMagistralDirection: flow(function* (id: string, item:IMagistralDirectionData) {
+        updateMagistralDirection: flow(function* (id: string, item:IMagistralDirectionUserData) {
             const d = delay(100);
             self.updatingFlag = true;
 
