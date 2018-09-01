@@ -7,14 +7,23 @@ export interface IPracticeMetric {
     dimension: MetricDimension,
 }
 
-export interface IPracticeData {
+export interface IPracticeUserData {
     description: string,
     name: string,
     metrics: IPracticeMetric[],
 }
 
-export interface IPractice extends IPracticeData{
+export interface IPracticeServiceData {
     dateCreated: Date,
-    dateModified: Date,
+    dateModified?: Date,
     userId: Schema.Types.ObjectId,
 }
+
+export interface IPractice extends IPracticeUserData, IPracticeServiceData{
+}
+
+export const IPracticeUserDataKeys = <Array<keyof IPracticeUserData>> Object.keys(<IPracticeUserData>{
+    description: "",
+    name: "",
+    metrics: [],
+});
