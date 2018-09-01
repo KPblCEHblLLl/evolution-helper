@@ -1,5 +1,6 @@
 import * as express from "express";
 import magistralDirection from './magistral-direction'
+import practice from './practice'
 
 export default (app: express.Application) => {
     // app.use((req: Request, res: Response, next) => {
@@ -12,4 +13,5 @@ export default (app: express.Application) => {
     // });
 
     app.use('/api/magistral-direction/', magistralDirection);
+    app.use('/api/practice/', practice);
 };
