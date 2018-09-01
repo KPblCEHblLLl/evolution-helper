@@ -6,7 +6,7 @@ import {StyledGlossaryPage, StyledHeader, StyledList, StyledListLink} from "./St
 export default function GlossaryPage(props: RouteComponentProps<any>) {
     const list = [
         {path: `${props.match.path}/life-periods`, name: 'Периоды жизни'},
-        {path: `${props.match.path}/practices`, name: 'Практики'},
+        {path: `${props.match.path}/practice`, name: 'Практики'},
         {path: `${props.match.path}/magistral-direction`, name: 'Магистральные направления'},
     ];
     return (

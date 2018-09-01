@@ -8,6 +8,7 @@ import StyledLoader from "../Loader/StyledLoader";
 
 interface IProps {
     onEdit: (id: string) => void
+    onCreate: () => void
     magistralDirection: typeof MagistralDirectionPageStore.Type
     id: string
 }
@@ -40,7 +41,9 @@ class MagistralDirectionEditForm extends React.Component<IProps, any> {
                 </div>
                 <div>
                     <ProgressButton onClick={this.handleSubmit}
-                                    loading={this.props.magistralDirection.updatingFlag}>Update</ProgressButton>
+                                    loading={this.props.magistralDirection.updatingFlag}>
+                        {this.props.id ? "Update" : "Create"}
+                    </ProgressButton>
                 </div>
             </form>
         )
@@ -52,10 +55,16 @@ class MagistralDirectionEditForm extends React.Component<IProps, any> {
             name: this.nameInput.value,
             description: this.descriptionInput.value,
         };
-        this.props.magistralDirection.updateMagistralDirection(this.props.id, item)
-            .then(() => {
-                this.props.onEdit(this.props.id);
-            });
+
+        if (this.props.id === "") {
+            this.props.magistralDirection.createMagistralDirection(item)
+                .then(this.props.onCreate);
+        } else {
+            this.props.magistralDirection.updateMagistralDirection(this.props.id, item)
+                .then(() => {
+                    this.props.onEdit(this.props.id);
+                });
+        }
     }
 }
 

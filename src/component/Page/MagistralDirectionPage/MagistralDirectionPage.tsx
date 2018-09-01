@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {Route, RouteComponentProps, Switch} from "react-router";
 import MagistralDirectionCard from "../../MagistralDirection/MagistralDirectionCard";
-import MagistralDirectionCreateForm from "../../MagistralDirection/MagistralDirectionCreateForm";
 import MagistralDirectionEditForm from "../../MagistralDirection/MagistralDirectionEditForm";
 import MagistralDirectionsList from "../../MagistralDirection/MagistralDirectionsList";
 import StyledLink from "../../StyledLink";
@@ -11,9 +10,7 @@ export default class MagistralDirectionPage extends React.Component<RouteCompone
     public render() {
         return (
             <Switch>
-                <Route path={`${this.props.match.path}/new`}>
-                    <MagistralDirectionCreateForm onCreate={this.onCreate}/>
-                </Route>
+                <Route path={`${this.props.match.path}/new`} render={this.renderEditForm} />
                 <Route path={`${this.props.match.path}/view/:id`} render={this.renderViewCard}/>
                 <Route path={`${this.props.match.path}/edit/:id`} render={this.renderEditForm}/>
                 <Route path={`${this.props.match.path}`}>
@@ -38,8 +35,9 @@ export default class MagistralDirectionPage extends React.Component<RouteCompone
 
     private renderEditForm = (props: RouteComponentProps<{ id: string }>) => {
         return <MagistralDirectionEditForm
-            id={props.match.params.id}
+            id={props.match.params.id || ""}
             onEdit={this.onItemEdit}
+            onCreate={this.onCreate}
         />
     };
 

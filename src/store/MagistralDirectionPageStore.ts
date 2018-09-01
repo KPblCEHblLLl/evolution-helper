@@ -37,6 +37,10 @@ export default types
             self.creatingFlag = false;
         }),
         loadMagistralDirection: flow(function* (id: string) {
+            if (id === "") {
+                self.currentItem = MagistralDirectionStore.create();
+                return;
+            }
             const d = delay(100);
             self.currentItem = undefined;
             self.loadingItemFlag = true;

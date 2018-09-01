@@ -1,8 +1,8 @@
 import {Schema} from 'mongoose';
 
 export interface IMagistralDirectionData {
-    description: string,
     name: string,
+    description: string,
 }
 
 export interface IMagistralDirection extends IMagistralDirectionData{

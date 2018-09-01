@@ -43,7 +43,7 @@ router.post('/', (req: Request, res: Response) => {
     });
 
     item.save(() => {
-        console.log('item created');
+        console.log('MN created');
         res.status(200).send(item);
     });
 });
@@ -60,9 +60,10 @@ router.put('/:id', (req: Request, res: Response) => {
 
         item.name = req.body.name;
         item.description = req.body.description;
+        item.dateModified = new Date();
 
         item.save(() => {
-            console.log('item updated');
+            console.log('MN updated');
             res.status(200).send(item);
         });
     });
@@ -77,6 +78,7 @@ router.delete('/:id', (req: Request, res: Response) => {
             res.status(503).send();
             return;
         }
+        console.log('MN deleted');
         res.status(200).send();
     });
 });
