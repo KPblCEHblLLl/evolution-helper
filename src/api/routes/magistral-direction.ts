@@ -1,19 +1,8 @@
 import {Request, Response, Router} from "express";
-import {ObjectID} from "mongodb";
 import {IMagistralDirectionModel, MagistralDirection} from '../../mongo/MagistralDirectionItem';
+import userId from "../userId";
 
 const router: Router = Router();
-const userId = new ObjectID('5b1822bed92d33f83bbc9014');
-
-// router.use('/', (req: Request, res: Response, next) => {
-//     console.log(req.params);
-//     if (!req.params.user || !req.params.user.id) {
-//         console.log('unauthorized');
-//         res.status(401).send('unauthorized');
-//     } else {
-//         next();
-//     }
-// });
 
 router.get('/', (req: Request, res: Response) => {
     MagistralDirection.find({userId}, (err: any, list) => {
