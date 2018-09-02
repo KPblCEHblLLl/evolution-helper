@@ -2,10 +2,10 @@ import {observer} from "mobx-react";
 import * as React from 'react';
 import styled from 'styled-components';
 import {typedInject} from "../../store/AppStore";
-import MagistralDirectionPageStore from "../../store/MagistralDirectionPageStore";
-import MagistralDirectionStore from "../../store/MagistralDirectionStore";
+import PracticeStore from "../../store/PracticeStore";
 import StyledLoader from "../Loader/StyledLoader";
 import StyledListLink from "../StyledListLink";
+import PracticePageStore from "../../store/PracticePageStore";
 
 const StyledHeader = styled('div')`
      font-size: 18px;
@@ -25,7 +25,7 @@ const StyledListItem = styled('li')`
      padding: 8px 12px;
 `;
 
-const MagistralDirectionItem = (props: { item: typeof MagistralDirectionStore.Type }) => (
+const PracticeItem = (props: { item: typeof PracticeStore.Type }) => (
     <StyledListItem>
         <StyledHeader>{props.item.name}</StyledHeader>
         <StyledDescription>{props.item.description}</StyledDescription>
@@ -34,28 +34,28 @@ const MagistralDirectionItem = (props: { item: typeof MagistralDirectionStore.Ty
 
 interface IProps {
     path: string;
-    magistralDirection: typeof MagistralDirectionPageStore.Type;
+    practice: typeof PracticePageStore.Type;
 }
 
-class MagistralDirectionsList extends React.Component<IProps> {
+class PracticesList extends React.Component<IProps> {
     public componentDidMount() {
-        this.props.magistralDirection.loadList();
+        this.props.practice.loadList();
     }
 
     public render() {
         return (
             <div>
                 <StyledList>
-                    {this.props.magistralDirection.magistralDirections.map((item: typeof MagistralDirectionStore.Type, idx: number) => (
+                    {this.props.practice.practices.map((item: typeof PracticeStore.Type, idx: number) => (
                         <StyledListLink to={`${this.props.path}/view/${item._id}`}>
-                            <MagistralDirectionItem item={item} key={idx}/>
+                            <PracticeItem item={item} key={idx}/>
                         </StyledListLink>
                     ))}
                 </StyledList>
-                <StyledLoader loading={this.props.magistralDirection.loadingListFlag}/>
+                <StyledLoader loading={this.props.practice.loadingListFlag}/>
             </div>
         )
     }
 }
 
-export default typedInject("magistralDirection")(observer(MagistralDirectionsList));
+export default typedInject("practice")(observer(PracticesList));

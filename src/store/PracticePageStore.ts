@@ -1,13 +1,13 @@
 import Axios from "axios";
 import {flow, types} from "mobx-state-tree";
-import {IMagistralDirectionUserData} from "../interface/magistral-direction";
-import MagistralDirectionStore from "./MagistralDirectionStore";
+import PracticeStore from "./PracticeStore";
+import {IPracticeUserData} from "../interface/practice";
 
 
 export default types
     .model({
-        magistralDirections: types.array(MagistralDirectionStore),
-        currentItem: types.maybe(MagistralDirectionStore),
+        practices: types.array(PracticeStore),
+        currentItem: types.maybe(PracticeStore),
         loadingListFlag: types.optional(types.boolean, false),
         loadingItemFlag: types.optional(types.boolean, false),
         creatingFlag: types.optional(types.boolean, false),
@@ -16,48 +16,48 @@ export default types
     })
     .actions(self => ({
         loadList: flow(function* () {
-            self.magistralDirections.clear();
+            self.practices.clear();
             self.loadingListFlag = true;
 
-            const response = yield Axios.get("/api/magistral-direction");
+            const response = yield Axios.get("/api/practice");
 
-            self.magistralDirections.push(...response.data);
+            self.practices.push(...response.data);
             self.loadingListFlag = false;
         }),
-        createMagistralDirection: flow(function* (item:IMagistralDirectionUserData) {
+        createPractice: flow(function* (item:IPracticeUserData) {
             self.creatingFlag = true;
 
-            yield Axios.post("/api/magistral-direction", item);
+            yield Axios.post("/api/practice", item);
 
             self.creatingFlag = false;
         }),
-        loadMagistralDirection: flow(function* (id: string) {
+        loadPractice: flow(function* (id: string) {
             if (id === "") {
-                self.currentItem = MagistralDirectionStore.create();
+                self.currentItem = PracticeStore.create();
                 return;
             }
             self.currentItem = undefined;
             self.loadingItemFlag = true;
 
-            const response = yield Axios.get(`/api/magistral-direction/${id}`);
+            const response = yield Axios.get(`/api/practice/${id}`);
 
             self.currentItem = response.data;
             self.loadingItemFlag = false;
         }),
-        deleteMagistralDirection: flow(function* (id: string) {
+        deletePractice: flow(function* (id: string) {
             self.deletingFlag = true;
 
-            const response = yield Axios.delete(`/api/magistral-direction/${id}`);
+            const response = yield Axios.delete(`/api/practice/${id}`);
 
             if (response.data) {
                 self.currentItem = undefined;
             }
             self.deletingFlag = false;
         }),
-        updateMagistralDirection: flow(function* (id: string, item:IMagistralDirectionUserData) {
+        updatePractice: flow(function* (id: string, item:IPracticeUserData) {
             self.updatingFlag = true;
 
-            const response = yield Axios.put(`/api/magistral-direction/${id}`, item);
+            const response = yield Axios.put(`/api/practice/${id}`, item);
 
             if (response.data) {
                 self.currentItem = undefined;

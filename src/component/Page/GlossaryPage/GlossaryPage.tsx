@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Route, RouteComponentProps, Switch} from "react-router";
 import MagistralDirectionPage from "../MagistralDirectionPage/MagistralDirectionPage";
 import {StyledGlossaryPage, StyledHeader, StyledList, StyledListLink} from "./StyledGlossaryPage"
+import PracticePage from "../PracticePage/PracticePage";
 
 export default function GlossaryPage(props: RouteComponentProps<any>) {
     const list = [
@@ -14,6 +15,8 @@ export default function GlossaryPage(props: RouteComponentProps<any>) {
             <Switch>
                 <Route path={`${props.match.path}/magistral-direction`}
                        component={MagistralDirectionPage}/>
+                <Route path={`${props.match.path}/practice`}
+                       component={PracticePage}/>
                 <Route path={props.match.path}>
                     <div>
                         <StyledHeader>
