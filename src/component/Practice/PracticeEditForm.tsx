@@ -55,6 +55,7 @@ class PracticeEditForm extends React.Component<IProps, any> {
             name: this.nameInput.value,
             description: this.descriptionInput.value,
             metrics: [],
+            magistralDirection: [],
         };
 
         if (this.props.id === "") {

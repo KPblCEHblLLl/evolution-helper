@@ -1,3 +1,3 @@
-import {Types, Schema} from 'mongoose';
+import {ObjectID} from "bson";
 
-export default new Types.ObjectId('5b1822bed92d33f83bbc9014') as object as Schema.Types.ObjectId;
+export default new ObjectID('5b1822bed92d33f83bbc9014');

@@ -1,5 +1,5 @@
-import {Schema} from 'mongoose';
 import MetricDimension from "../enum/MetricDimension";
+import {ObjectID} from "bson";
 
 export interface IPracticeMetric {
     name: string,
@@ -10,14 +10,14 @@ export interface IPracticeMetric {
 export interface IPracticeUserData {
     description: string,
     name: string,
-    magistralDirection: Schema.Types.ObjectId[],
+    magistralDirection: ObjectID[],
     metrics: IPracticeMetric[],
 }
 
 export interface IPracticeServiceData {
     dateCreated: Date,
     dateModified?: Date,
-    userId: Schema.Types.ObjectId,
+    userId: ObjectID,
 }
 
 export interface IPractice extends IPracticeUserData, IPracticeServiceData{

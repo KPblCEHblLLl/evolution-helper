@@ -1,4 +1,4 @@
-import {Schema} from 'mongoose';
+import {ObjectID} from "bson";
 
 export interface IMagistralDirectionUserData {
     name: string,
@@ -9,7 +9,7 @@ export interface IMagistralDirectionUserData {
 export interface IMagistralDirectionServiceData {
     dateCreated: Date,
     dateModified?: Date,
-    userId: Schema.Types.ObjectId,
+    userId: ObjectID,
 }
 
 export interface IMagistralDirection extends IMagistralDirectionUserData, IMagistralDirectionServiceData{
