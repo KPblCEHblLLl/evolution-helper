@@ -15,7 +15,6 @@ const StyledDescription = styled('div')`
      font-size: 13px;
 `;
 
-
 interface IProps {
     magistralDirection: typeof MagistralDirectionPageStore.Type;
     onItemDelete: () => void;

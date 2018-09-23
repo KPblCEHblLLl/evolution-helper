@@ -1,7 +1,9 @@
 import Axios from "axios";
 import {flow, types} from "mobx-state-tree";
-import PracticeStore from "./PracticeStore";
-import {IPracticeUserData} from "../interface/practice";
+import {PracticeStore} from "./PracticeStore";
+import {IApiPracticeUpdate} from "../api/model/ApiPracticeUpdate";
+import {IApiPractice} from "../api/model/ApiPractice";
+import {ObjectID} from "bson";
 
 
 export default types
@@ -10,6 +12,7 @@ export default types
         currentItem: types.maybe(PracticeStore),
         loadingListFlag: types.optional(types.boolean, false),
         loadingItemFlag: types.optional(types.boolean, false),
+        savingFlag: types.optional(types.boolean, false),
         creatingFlag: types.optional(types.boolean, false),
         deletingFlag: types.optional(types.boolean, false),
         updatingFlag: types.optional(types.boolean, false),
@@ -24,7 +27,30 @@ export default types
             self.practices.push(...response.data);
             self.loadingListFlag = false;
         }),
-        createPractice: flow(function* (item:IPracticeUserData) {
+        saveCurrentPractice: flow(function* () {
+            if (self.currentItem === undefined) {
+                return;
+            }
+            const item:IApiPractice = self.currentItem;
+            self.savingFlag = true;
+
+            const data: IApiPracticeUpdate = {
+                name: item.name,
+                description: item.description,
+                metrics: item.metrics,
+                magistralDirections: item.magistralDirections.map(x => x.id),
+            };
+
+            const id = item.id;
+            if (!ObjectID.isValid(id)) {
+                 yield Axios.post("/api/practice", data);
+            } else {
+                yield Axios.put(`/api/practice/${id}`, data);
+            }
+
+            self.savingFlag = false;
+        }),
+        createPractice: flow(function* (item:IApiPracticeUpdate) {
             self.creatingFlag = true;
 
             yield Axios.post("/api/practice", item);
@@ -53,16 +79,6 @@ export default types
                 self.currentItem = undefined;
             }
             self.deletingFlag = false;
-        }),
-        updatePractice: flow(function* (id: string, item:IPracticeUserData) {
-            self.updatingFlag = true;
-
-            const response = yield Axios.put(`/api/practice/${id}`, item);
-
-            if (response.data) {
-                self.currentItem = undefined;
-            }
-            self.updatingFlag = false;
         }),
     }));
 

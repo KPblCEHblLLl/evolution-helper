@@ -23,7 +23,7 @@ const Button = styled.button`
 export default (props: React.HTMLAttributes<HTMLButtonElement>) => (
     <Wrap>
         <Shadow/>
-        <Button className={props.className} onClick={props.onClick}>
+        <Button type="button" className={props.className} onClick={props.onClick}>
             {props.children}
         </Button>
     </Wrap>

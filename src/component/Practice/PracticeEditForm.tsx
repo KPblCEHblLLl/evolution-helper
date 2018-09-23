@@ -4,7 +4,11 @@ import {typedInject} from "../../store/AppStore";
 import ProgressButton from "../Button/ProgressButton";
 import StyledLoader from "../Loader/StyledLoader";
 import PracticePageStore from "../../store/PracticePageStore";
-import {IPracticeUserData} from "../../interface/practice";
+import {PracticeMetric} from "../../store/PracticeStore";
+import MagistralDirectionAutosuggest from "../Autosuggest/MagistralDirectionAutosuggest";
+import {ReactNode} from "react";
+
+type Metric = typeof PracticeMetric.Type;
 
 interface IProps {
     onEdit: (id: string) => void
@@ -13,9 +17,13 @@ interface IProps {
     id: string
 }
 
-class PracticeEditForm extends React.Component<IProps, any> {
-    private nameInput: HTMLInputElement;
-    private descriptionInput: HTMLTextAreaElement;
+class PracticeEditForm extends React.Component<IProps> {
+    private static renderMetric(metric: Metric, key: number): ReactNode {
+
+        return (
+            <MagistralDirectionAutosuggest/>
+        )
+    }
 
     public componentDidMount() {
         this.props.practice.loadPractice(this.props.id);
@@ -23,25 +31,29 @@ class PracticeEditForm extends React.Component<IProps, any> {
 
     public render() {
         const store = this.props.practice;
+        const item = store.currentItem;
 
-        if (store.currentItem === undefined) {
+        if (item === undefined) {
             return <StyledLoader loading={store.loadingItemFlag}/>
         }
 
         return (
             <form>
                 <div>
-                    Name: <input ref={(ref: HTMLInputElement) => this.nameInput = ref}
-                                 defaultValue={store.currentItem.name}/>
+                    Name: <input value={item.name} onChange={this.onChangeName}/>
                 </div>
                 <div>
                     Description:
-                    <textarea ref={(ref: HTMLTextAreaElement) => this.descriptionInput = ref}
-                              defaultValue={store.currentItem.description}/>
+                    <textarea value={item.description} onChange={this.onChangeDescription}/>
+                </div>
+                <div>
+                    Magistral directions:
+                    {item.metrics.map(PracticeEditForm.renderMetric)}
+                    <input type='button' value='add' onClick={this.addDirection} />
                 </div>
                 <div>
                     <ProgressButton onClick={this.handleSubmit}
-                                    loading={this.props.practice.updatingFlag}>
+                                    loading={this.props.practice.savingFlag}>
                         {this.props.id ? "Update" : "Create"}
                     </ProgressButton>
                 </div>
@@ -49,25 +61,40 @@ class PracticeEditForm extends React.Component<IProps, any> {
         )
     }
 
-    private handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        const item: IPracticeUserData = {
-            name: this.nameInput.value,
-            description: this.descriptionInput.value,
-            metrics: [],
-            magistralDirection: [],
-        };
+    private onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const item = this.props.practice.currentItem;
+        if (item === undefined) {
+            return
+        }
+        item.setName(e.target.value);
+    };
 
+    private onChangeDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const item = this.props.practice.currentItem;
+        if (item === undefined) {
+            return
+        }
+        item.setDescription(e.target.value);
+    };
+
+    private handleSubmit = () => {
         if (this.props.id === "") {
-            this.props.practice.createPractice(item)
+            this.props.practice.saveCurrentPractice()
                 .then(this.props.onCreate);
         } else {
-            this.props.practice.updatePractice(this.props.id, item)
+            this.props.practice.saveCurrentPractice()
                 .then(() => {
                     this.props.onEdit(this.props.id);
-                });
+                 });
         }
-    }
+    };
+
+    private addDirection = () => {
+        const item = this.props.practice.currentItem;
+        if (item === undefined) {
+            return
+        }
+    };
 }
 
 export default typedInject("practice")(observer(PracticeEditForm));

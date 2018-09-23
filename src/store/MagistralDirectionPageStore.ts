@@ -1,19 +1,19 @@
 import Axios from "axios";
 import {flow, types} from "mobx-state-tree";
-import {IMagistralDirectionUserData} from "../interface/magistral-direction";
-import MagistralDirectionStore from "./MagistralDirectionStore";
+import {MagistralDirectionStore} from "./MagistralDirectionStore";
+import {IApiMagistralDirectionUpdate} from "../api/model/ApiMagistralDirectionUpdate";
 
-
+const model = {
+    magistralDirections: types.array(MagistralDirectionStore),
+    currentItem: types.maybe(MagistralDirectionStore),
+    loadingListFlag: types.optional(types.boolean, false),
+    loadingItemFlag: types.optional(types.boolean, false),
+    creatingFlag: types.optional(types.boolean, false),
+    deletingFlag: types.optional(types.boolean, false),
+    updatingFlag: types.optional(types.boolean, false),
+};
 export default types
-    .model({
-        magistralDirections: types.array(MagistralDirectionStore),
-        currentItem: types.maybe(MagistralDirectionStore),
-        loadingListFlag: types.optional(types.boolean, false),
-        loadingItemFlag: types.optional(types.boolean, false),
-        creatingFlag: types.optional(types.boolean, false),
-        deletingFlag: types.optional(types.boolean, false),
-        updatingFlag: types.optional(types.boolean, false),
-    })
+    .model(model)
     .actions(self => ({
         loadList: flow(function* () {
             self.magistralDirections.clear();
@@ -24,7 +24,7 @@ export default types
             self.magistralDirections.push(...response.data);
             self.loadingListFlag = false;
         }),
-        createMagistralDirection: flow(function* (item:IMagistralDirectionUserData) {
+        createMagistralDirection: flow(function* (item:IApiMagistralDirectionUpdate) {
             self.creatingFlag = true;
 
             yield Axios.post("/api/magistral-direction", item);
@@ -54,7 +54,7 @@ export default types
             }
             self.deletingFlag = false;
         }),
-        updateMagistralDirection: flow(function* (id: string, item:IMagistralDirectionUserData) {
+        updateMagistralDirection: flow(function* (id: string, item:IApiMagistralDirectionUpdate) {
             self.updatingFlag = true;
 
             const response = yield Axios.put(`/api/magistral-direction/${id}`, item);

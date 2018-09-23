@@ -1,12 +1,12 @@
 import {types} from "mobx-state-tree";
+import {WithKeys} from "../util/WithKeys";
+import {IApiMagistralDirection} from "../api/model/ApiMagistralDirection";
 
-export default types.model({
+const model: WithKeys<IApiMagistralDirection> = {
     name: types.optional(types.string, ""),
     description: types.optional(types.string, ""),
+    id: types.optional(types.string, ""),
+};
 
-    _id: types.optional(types.string, ""),
-    dateModified: types.optional(types.string, ""),
-    dateCreated: types.optional(types.string, ""),
-    userId: types.optional(types.string, ""),
-    __v: types.optional(types.number, 0),
-})
+export const MagistralDirectionStore = types.model(model);
+export type MagistralDirectionStoreType = typeof MagistralDirectionStore.Type;

@@ -1,78 +1,105 @@
 import {Request, Response, Router} from "express";
 import userId from "../userId";
-import {IPracticeModel, Practice} from "../../mongo/PracticeItem";
-import {IPracticeServiceData, IPracticeUserDataKeys} from "../../interface/practice";
-import assignKeys from "../../util/assignKeys";
+import {
+    IMongoPractice,
+    IMongoPracticeDocument,
+    MongoPracticeCollection
+} from "../mongo/MongoPracticeCollection";
+import {IJsonResponse} from "./types";
+import {IApiPracticeUpdate} from "../model/ApiPracticeUpdate";
+import {IApiPractice, parseMongoDocumentToApiPractice} from "../model/ApiPractice";
 
 const router: Router = Router();
 
-router.get('/', (req: Request, res: Response) => {
-    Practice.find({userId}, (err: any, list) => {
+router.get('/', (req: Request, res: IJsonResponse<IApiPractice[]>) => {
+    MongoPracticeCollection.find({userId}, (err: any, list) => {
         if (err != null) {
             res.status(503).send(err);
         } else {
-            res.status(200).send(list);
+            Promise.all(list.map(parseMongoDocumentToApiPractice)).then((modelsList) => {
+                res.status(200).send(modelsList);
+            })
         }
     });
 });
 
-router.get('/:id', (req: Request, res: Response) => {
-    Practice.findOne({userId, _id: req.params.id}, (err: any, item) => {
+router.get('/:id', (req: Request, res: IJsonResponse<IApiPractice>) => {
+    MongoPracticeCollection.findOne({userId, _id: req.params.id}, (err: any, item) => {
         if (err != null) {
             res.status(503).send(err);
         } else {
-            res.status(200).send(item);
+
+            if (item === null) {
+                res.status(200).send(null);
+            } else {
+                parseMongoDocumentToApiPractice(item).then((model) => {
+                    res.status(200).send(model);
+                })
+            }
         }
     });
 });
 
-router.post('/', (req: Request, res: Response) => {
-    const userData = assignKeys({}, IPracticeUserDataKeys, req.body);
-    const serviceData:IPracticeServiceData = {
+router.post('/', (req: Request, res: IJsonResponse<IApiPractice>) => {
+    const userData: IApiPracticeUpdate = req.body;
+    const itemData: IMongoPractice = {
+        name: userData.name,
+        description: userData.description,
+        metrics: userData.metrics,
+        magistralDirections: userData.magistralDirections,
+
         userId,
         dateCreated: new Date(),
     };
-    const item = new Practice({
-        ...userData,
-        ...serviceData,
-    });
+    const item = new MongoPracticeCollection(itemData);
 
     item.save(() => {
-        console.log('Practice created');
-        res.status(200).send(item);
+        console.log('MongoPractice created');
+        parseMongoDocumentToApiPractice(item).then((model) => {
+            res.status(200).send(model);
+        })
     });
 });
 
-router.put('/:id', (req: Request, res: Response) => {
-    Practice.findOne({
+router.put('/:id', (req: Request, res: IJsonResponse<IApiPractice>) => {
+    MongoPracticeCollection.findOne({
         _id: req.params.id,
         userId,
-    }, (err: any, item: IPracticeModel) => {
+    }, (err: any, item: IMongoPracticeDocument) => {
         if (err) {
-            res.status(503).send();
+            res.status(503).send(null);
             return;
         }
 
-        assignKeys(item, IPracticeUserDataKeys, req.body);
+        const userData: IApiPracticeUpdate = req.body;
+
+        item.name = userData.name;
+        item.description = userData.description;
+        item.magistralDirections = userData.magistralDirections;
+        item.metrics = userData.metrics;
+
         item.dateModified = new Date();
 
         item.save(() => {
-            console.log('Practice updated');
-            res.status(200).send(item);
+            console.log('MongoPractice updated');
+
+            parseMongoDocumentToApiPractice(item).then((model) => {
+                res.status(200).send(model);
+            })
         });
     });
 });
 
 router.delete('/:id', (req: Request, res: Response) => {
-    Practice.remove({
-        _id: req.params.id,
+    MongoPracticeCollection.remove({
+        id: req.params.id,
         userId,
     }, (err: any) => {
         if (err) {
             res.status(503).send();
             return;
         }
-        console.log('Practice deleted');
+        console.log('MongoPractice deleted');
         res.status(200).send();
     });
 });

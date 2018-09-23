@@ -2,7 +2,7 @@ import {observer} from "mobx-react";
 import * as React from 'react';
 import styled from 'styled-components';
 import {typedInject} from "../../store/AppStore";
-import PracticeStore from "../../store/PracticeStore";
+import {PracticeStore} from "../../store/PracticeStore";
 import StyledLoader from "../Loader/StyledLoader";
 import StyledListLink from "../StyledListLink";
 import PracticePageStore from "../../store/PracticePageStore";
@@ -47,7 +47,7 @@ class PracticesList extends React.Component<IProps> {
             <div>
                 <StyledList>
                     {this.props.practice.practices.map((item: typeof PracticeStore.Type, idx: number) => (
-                        <StyledListLink to={`${this.props.path}/view/${item._id}`}>
+                        <StyledListLink to={`${this.props.path}/view/${item.id}`}>
                             <PracticeItem item={item} key={idx}/>
                         </StyledListLink>
                     ))}

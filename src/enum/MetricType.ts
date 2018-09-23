@@ -1,5 +1,5 @@
-enum MetricNumber {
+enum MetricType {
     NUMBER,
 }
 
-export default MetricNumber
+export default MetricType

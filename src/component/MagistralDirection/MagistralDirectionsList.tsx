@@ -3,7 +3,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import {typedInject} from "../../store/AppStore";
 import MagistralDirectionPageStore from "../../store/MagistralDirectionPageStore";
-import MagistralDirectionStore from "../../store/MagistralDirectionStore";
+import {MagistralDirectionStore} from "../../store/MagistralDirectionStore";
 import StyledLoader from "../Loader/StyledLoader";
 import StyledListLink from "../StyledListLink";
 
@@ -47,7 +47,7 @@ class MagistralDirectionsList extends React.Component<IProps> {
             <div>
                 <StyledList>
                     {this.props.magistralDirection.magistralDirections.map((item: typeof MagistralDirectionStore.Type, idx: number) => (
-                        <StyledListLink to={`${this.props.path}/view/${item._id}`}>
+                        <StyledListLink to={`${this.props.path}/view/${item.id}`}>
                             <MagistralDirectionItem item={item} key={idx}/>
                         </StyledListLink>
                     ))}
