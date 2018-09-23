@@ -24,4 +24,4 @@ const magistralDirectionSchema: WithKeys<IMongoMagistralDirection> = {
 };
 const MagistralDirectionSchema = new Schema(magistralDirectionSchema);
 
-export const MongoMagistralDirectionCollection: Model<IMongoMagistralDirectionDocument> = model<IMongoMagistralDirectionDocument>('MagistralDirection', MagistralDirectionSchema);
+export const MongoMagistralDirectionCollection: Model<IMongoMagistralDirectionDocument> = model<IMongoMagistralDirectionDocument>('MagistralDirection', MagistralDirectionSchema, 'magistralDirection');

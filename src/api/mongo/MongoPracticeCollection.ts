@@ -44,4 +44,4 @@ const mongoPracticeSchema: WithKeys<IMongoPractice> = {
 };
 const MongoPracticeSchema = new Schema(mongoPracticeSchema);
 
-export const MongoPracticeCollection: Model<IMongoPracticeDocument> = model<IMongoPracticeDocument>('MongoPractice', MongoPracticeSchema);
+export const MongoPracticeCollection: Model<IMongoPracticeDocument> = model<IMongoPracticeDocument>('Practice', MongoPracticeSchema, 'practice');

@@ -78,7 +78,7 @@ router.put('/:id', (req: Request, res: IJsonResponse<IApiMagistralDirection>) =>
 
 router.delete('/:id', (req: Request, res: Response) => {
     MongoMagistralDirectionCollection.remove({
-        id: req.params.id,
+        _id: req.params.id,
         userId,
     }, (err: any) => {
         if (err) {
@@ -94,7 +94,7 @@ router.get('/findByName/:name', (req: Request, res: IJsonResponse<IApiMagistralD
     const filter = {
         userId,
         name: {
-            $regex: new RegExp(req.params.name, 'i'),
+            $regex: new RegExp(`.*${req.params.name}.*`, 'i'),
         }
     };
 

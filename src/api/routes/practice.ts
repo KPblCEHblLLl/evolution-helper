@@ -2,12 +2,12 @@ import {Request, Response, Router} from "express";
 import userId from "../userId";
 import {
     IMongoPractice,
-    IMongoPracticeDocument,
     MongoPracticeCollection
 } from "../mongo/MongoPracticeCollection";
 import {IJsonResponse} from "./types";
 import {IApiPracticeUpdate} from "../model/ApiPracticeUpdate";
 import {IApiPractice, parseMongoDocumentToApiPractice} from "../model/ApiPractice";
+import {ObjectID} from "bson";
 
 const router: Router = Router();
 
@@ -46,7 +46,7 @@ router.post('/', (req: Request, res: IJsonResponse<IApiPractice>) => {
         name: userData.name,
         description: userData.description,
         metrics: userData.metrics,
-        magistralDirections: userData.magistralDirections,
+        magistralDirections: userData.magistralDirections.filter(x => ObjectID.isValid(x)),
 
         userId,
         dateCreated: new Date(),
@@ -62,37 +62,33 @@ router.post('/', (req: Request, res: IJsonResponse<IApiPractice>) => {
 });
 
 router.put('/:id', (req: Request, res: IJsonResponse<IApiPractice>) => {
-    MongoPracticeCollection.findOne({
+    const userData: IApiPracticeUpdate = req.body;
+    const updateData: Partial<IMongoPractice> = {
+        name: userData.name,
+        description: userData.description,
+        metrics: userData.metrics,
+        magistralDirections: userData.magistralDirections.filter(x => ObjectID.isValid(x)),
+        dateModified: new Date(),
+    };
+
+    MongoPracticeCollection.update({
         _id: req.params.id,
         userId,
-    }, (err: any, item: IMongoPracticeDocument) => {
+    }, {
+        $set: updateData
+    }, (err: any) => {
         if (err) {
             res.status(503).send(null);
             return;
         }
-
-        const userData: IApiPracticeUpdate = req.body;
-
-        item.name = userData.name;
-        item.description = userData.description;
-        item.magistralDirections = userData.magistralDirections;
-        item.metrics = userData.metrics;
-
-        item.dateModified = new Date();
-
-        item.save(() => {
-            console.log('MongoPractice updated');
-
-            parseMongoDocumentToApiPractice(item).then((model) => {
-                res.status(200).send(model);
-            })
-        });
+        console.log('MongoPractice updated');
+        res.status(200).send(null);
     });
 });
 
 router.delete('/:id', (req: Request, res: Response) => {
     MongoPracticeCollection.remove({
-        id: req.params.id,
+        _id: req.params.id,
         userId,
     }, (err: any) => {
         if (err) {

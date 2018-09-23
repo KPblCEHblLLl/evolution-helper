@@ -1,5 +1,5 @@
 enum MetricType {
-    NUMBER,
+    INTEGER,
 }
 
 export default MetricType

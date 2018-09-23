@@ -4,11 +4,11 @@ import {typedInject} from "../../store/AppStore";
 import ProgressButton from "../Button/ProgressButton";
 import StyledLoader from "../Loader/StyledLoader";
 import PracticePageStore from "../../store/PracticePageStore";
-import {PracticeMetric} from "../../store/PracticeStore";
+import {PracticeMetricStoreType} from "../../store/PracticeStore";
 import MagistralDirectionAutosuggest from "../Autosuggest/MagistralDirectionAutosuggest";
 import {ReactNode} from "react";
-
-type Metric = typeof PracticeMetric.Type;
+import {MagistralDirectionClassifStoreType} from "../../store/MagistralDirectionClassifStore";
+import PracticeMetricEditForm from "./PracticeMetricEditForm";
 
 interface IProps {
     onEdit: (id: string) => void
@@ -18,10 +18,14 @@ interface IProps {
 }
 
 class PracticeEditForm extends React.Component<IProps> {
-    private static renderMetric(metric: Metric, key: number): ReactNode {
-
+    private static renderMagistralDirection(direction: MagistralDirectionClassifStoreType, key: number): ReactNode {
         return (
-            <MagistralDirectionAutosuggest/>
+            <MagistralDirectionAutosuggest target={direction} key={key}/>
+        )
+    }
+    private static renderMetric(metric: PracticeMetricStoreType, key: number): ReactNode {
+        return (
+            <PracticeMetricEditForm metric={metric} key={key}/>
         )
     }
 
@@ -47,8 +51,13 @@ class PracticeEditForm extends React.Component<IProps> {
                     <textarea value={item.description} onChange={this.onChangeDescription}/>
                 </div>
                 <div>
-                    Magistral directions:
+                    Metrics:
                     {item.metrics.map(PracticeEditForm.renderMetric)}
+                    <input type='button' value='add' onClick={this.addMetric} />
+                </div>
+                <div>
+                    Magistral directions:
+                    {item.magistralDirections.map(PracticeEditForm.renderMagistralDirection)}
                     <input type='button' value='add' onClick={this.addDirection} />
                 </div>
                 <div>
@@ -94,6 +103,15 @@ class PracticeEditForm extends React.Component<IProps> {
         if (item === undefined) {
             return
         }
+        item.addMagistralDirection();
+    };
+
+    private addMetric = () => {
+        const item = this.props.practice.currentItem;
+        if (item === undefined) {
+            return
+        }
+        item.addMetric();
     };
 }
 

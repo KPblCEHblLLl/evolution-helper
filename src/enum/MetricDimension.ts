@@ -1,5 +1,4 @@
 enum MetricDimension {
-    NONE,
     SECOND,
     MINUTE,
     HOUR,
