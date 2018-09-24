@@ -47,8 +47,8 @@ class PracticesList extends React.Component<IProps> {
             <div>
                 <StyledList>
                     {this.props.practice.practices.map((item: typeof PracticeStore.Type, idx: number) => (
-                        <StyledListLink to={`${this.props.path}/view/${item.id}`}>
-                            <PracticeItem item={item} key={idx}/>
+                        <StyledListLink to={`${this.props.path}/view/${item.id}`} key={idx}>
+                            <PracticeItem item={item}/>
                         </StyledListLink>
                     ))}
                 </StyledList>
